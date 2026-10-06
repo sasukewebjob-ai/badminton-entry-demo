@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>第13回伊那市ビギナーズバドミントン交流会 参加申込フォーム</title>
+    <title>第1回 サンプルバドミントン交流会 参加申込フォーム【デモ】</title>
 
     <!-- Google Fonts: Noto Sans JP & Outfit (英数字用) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -98,6 +98,20 @@
             color: var(--text-light);
         }
 
+        /* 開催情報（主催・日時・場所） */
+        .event-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.25rem 1.5rem;
+            margin-top: 0.85rem;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+        .event-info span {
+            text-align: center;
+        }
+
         /* ==========================================================================
            3. 責任者情報入力欄 (2カラムグリッド)
            ========================================================================== */
@@ -158,6 +172,16 @@
             display: flex;
             flex-direction: column;
             gap: 0.375rem;
+        }
+
+        /* ボット対策のダミー欄：画面外に追いやり人間には見せない（display:noneは単純ボットも読むため使わない） */
+        .hp-field {
+            position: absolute !important;
+            left: -9999px !important;
+            top: -9999px !important;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
         }
 
         .form-control.full-width {
@@ -278,6 +302,195 @@
             font-family: inherit;
         }
 
+        /* 定員・残り枠バナー（GASから取得して表示） */
+        .capacity-banner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            color: #0369a1;
+            border-radius: 10px;
+            padding: 0.6rem 1rem;
+            margin-bottom: 1.25rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        .capacity-banner[hidden] { display: none; }
+        .capacity-banner .capacity-remaining {
+            font-size: 1.2rem;
+            margin: 0 0.1rem;
+        }
+        .capacity-banner.capacity-low {
+            background: #fffbeb;
+            border-color: #fde68a;
+            color: #b45309;
+        }
+        .capacity-banner.capacity-full {
+            background: #fef2f2;
+            border-color: #fecaca;
+            color: #b91c1c;
+        }
+
+        /* 申込開始日の赤字告知バナー（2026-08-08 受付開始につきHTMLは削除・再ロック時の再利用用に残置） */
+        .start-date-banner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            background: #fff1f2;
+            border: 2px solid #dc2626;
+            color: #dc2626;
+            border-radius: 12px;
+            padding: 0.9rem 1rem;
+            margin-bottom: 1.25rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            line-height: 1.4;
+            text-align: center;
+        }
+        .start-date-banner .start-date-emph {
+            font-size: 1.9rem;
+        }
+        @media (max-width: 480px) {
+            .start-date-banner { font-size: 1.2rem; padding: 0.8rem 0.6rem; }
+            .start-date-banner .start-date-emph { font-size: 1.5rem; }
+        }
+
+        /* 申込締切の告知バナー（開始日バナーと対。定員到達が先なら締切前でも終了する旨も添える） */
+        .deadline-banner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+            background: #fffbeb;
+            border: 2px solid #d97706;
+            color: #b45309;
+            border-radius: 12px;
+            padding: 0.8rem 1rem;
+            margin-bottom: 1.25rem;
+            font-size: 1.25rem;
+            font-weight: 800;
+            line-height: 1.5;
+            text-align: center;
+        }
+        .deadline-banner .deadline-emph { font-size: 1.6rem; }
+        .deadline-banner .deadline-note {
+            width: 100%;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        @media (max-width: 480px) {
+            .deadline-banner { font-size: 1.05rem; padding: 0.7rem 0.6rem; }
+            .deadline-banner .deadline-emph { font-size: 1.3rem; }
+            .deadline-banner .deadline-note { font-size: 0.8rem; }
+        }
+
+        /* キャンセル規定の注記 */
+        .policy-note {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-left: 4px solid var(--primary);
+            border-radius: 10px;
+            padding: 0.8rem 1rem;
+            margin-bottom: 1.25rem;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: var(--text-dark);
+        }
+        .policy-note .policy-title {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            color: var(--primary);
+        }
+        .policy-note .policy-accent {
+            color: #c2410c;
+            font-weight: 700;
+        }
+        /* 注記内の公式LINEリンク（緑ボタン風・タップしやすいサイズ） */
+        .policy-note .line-link,
+        .duplicate-note .line-link,
+        .modal-dup-note .line-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: #06c755;
+            color: #fff;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 999px;
+            padding: 0.15rem 0.7rem;
+            margin: 0 0.15rem;
+            white-space: nowrap;
+        }
+        .policy-note .line-link:hover,
+        .duplicate-note .line-link:hover,
+        .modal-dup-note .line-link:hover {
+            background: #05a948;
+        }
+
+        /* 名簿セクションの「団体ごとに1回」注記 */
+        .duplicate-note {
+            background: #fffbeb;
+            border: 1px solid #fcd34d;
+            border-radius: 8px;
+            padding: 0.6rem 0.8rem;
+            margin: -0.75rem 0 1.5rem;
+            font-size: 0.88rem;
+            line-height: 1.7;
+            color: var(--text-dark);
+        }
+        .duplicate-note strong {
+            color: #b45309;
+        }
+
+        /* 送信前確認モーダルの「団体ごとに1回」注記 */
+        .modal-dup-note {
+            background: #fffbeb;
+            border: 1px solid #fcd34d;
+            color: var(--text-dark);
+            font-size: 0.85rem;
+            line-height: 1.6;
+            border-radius: 8px;
+            padding: 0.6rem 0.8rem;
+            margin: 0 0 1.25rem;
+        }
+        .modal-dup-note strong {
+            color: #b45309;
+        }
+
+        /* 大会要項・Excelメール添付申込の案内リンクバナー */
+        .info-link-banner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+            background: #f0f9ff;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1.25rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+        }
+        .info-link-banner:hover {
+            background: #e0f2fe;
+        }
+        .info-link-banner .info-link-here {
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
         /* 送信前の確認モーダル */
         .modal-overlay {
             position: fixed;
@@ -319,6 +532,8 @@
         }
         .modal-summary {
             width: 100%;
+            min-width: 0; /* 名簿用 table{min-width:900px} を継承させない（モーダル内の横スクロール防止） */
+            table-layout: fixed; /* 列幅をモーダル幅に収め、長い値は折り返す */
             border-collapse: collapse;
             margin-bottom: 1.25rem;
             font-size: 0.95rem;
@@ -328,6 +543,7 @@
             padding: 0.55rem 0.5rem;
             border-bottom: 1px solid #f0f0f0;
             vertical-align: top;
+            word-break: break-word; /* 長い団体名なども折り返してはみ出しを防ぐ */
         }
         .modal-summary th {
             color: var(--text-light);
@@ -736,6 +952,36 @@
             background: transparent;
         }
 
+        /* 入金案内ボックス（完了画面で目立たせる） */
+        .payment-notice {
+            background: #fff7ed;
+            border: 2px solid #fb923c;
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            max-width: 600px;
+            margin: 0 auto 2rem auto;
+            text-align: left;
+            line-height: 1.8;
+        }
+
+        .payment-notice-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #c2410c;
+            margin: 0 0 0.6rem 0;
+        }
+
+        .payment-notice p {
+            margin: 0;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+        }
+
+        .payment-notice .accent {
+            color: #c2410c;
+            font-weight: 700;
+        }
+
         /* モバイル対応 (スマートフォン等の小画面デバイス向け入力最適化) */
         @media (max-width: 768px) {
             .responsibility-group {
@@ -948,6 +1194,10 @@
             .rank-warning,
             .missing-checklist,
             .draft-banner,
+            .capacity-banner,
+            .deadline-banner,
+            .policy-note,
+            .duplicate-note,
             .loading-overlay,
             .thanks-container {
                 display: none !important;
@@ -1221,6 +1471,68 @@
         .print-footer-number {
             display: none;
         }
+        /* ==========================================================================
+           デモ版のみ：案内帯・送信結果ボックス（本番には無い）
+           ========================================================================== */
+        .demo-banner,
+        .demo-result {
+            background: #f5f3ff;
+            border: 2px dashed #7c3aed;
+            border-radius: 12px;
+            padding: 0.9rem 1.1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: var(--text-dark);
+        }
+        .demo-result {
+            max-width: 600px;
+            margin: 0 auto 1.5rem;
+            text-align: left;
+        }
+        .demo-banner-title {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: #6d28d9;
+            margin-bottom: 0.3rem;
+        }
+        .demo-banner-note {
+            margin-top: 0.4rem;
+            font-size: 0.82rem;
+            color: var(--text-light);
+        }
+        .demo-banner-note strong { color: #b91c1c; }
+        .demo-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.7rem;
+        }
+        .demo-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: #7c3aed;
+            color: #fff;
+            border: 1px solid #7c3aed;
+            border-radius: 999px;
+            padding: 0.4rem 1rem;
+            font-size: 0.88rem;
+            font-weight: 700;
+            font-family: inherit;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .demo-btn:hover { background: #6d28d9; }
+        .demo-btn[hidden] { display: none; }
+        .demo-btn-ghost {
+            background: #fff;
+            color: #6d28d9;
+        }
+        .demo-btn-ghost:hover { background: #ede9fe; }
+        @media print {
+            .demo-banner, .demo-result { display: none !important; }
+        }
     </style>
 </head>
 
@@ -1238,6 +1550,7 @@
             <h2 class="modal-title" id="confirm-modal-title">この内容で送信します</h2>
             <p class="modal-lead">特に<strong>メールアドレス</strong>に間違いがないかご確認ください。控えのPDFがこのアドレス宛てに届きます。</p>
             <p class="modal-rank-note">⚠ ペアは「ランク順」で入力されていますか？ 順番が違うと組み合わせに影響します。</p>
+            <p class="modal-dup-note">📝 同じ団体から<strong>すでに申し込み済み</strong>の追加送信ではありませんか？ その場合は送信後に主催者へご連絡ください。</p>
             <table class="modal-summary">
                 <tr><th>団体名</th><td id="cf-group">-</td></tr>
                 <tr><th>責任者氏名</th><td id="cf-name">-</td></tr>
@@ -1253,10 +1566,49 @@
     </div>
 
     <div id="form-container" class="container">
+        <!-- デモ版の案内（本番には無い） -->
+        <div class="demo-banner" role="note">
+            <p class="demo-banner-title">🧪 これは参加申込システムのデモです</p>
+            <p>実際の大会で使った申込フォームを、架空の大会名で再現しています。送信すると本番と同じように、閲覧用スプレッドシートへの記録・団体別申込書の作成・控えメール（申込書PDF付き）の送信が行われます。</p>
+            <p class="demo-banner-note">※送信内容は閲覧用スプレッドシートに表示されます（電話番号・メールアドレスは伏せ字）。<strong>実在の個人情報は入力しないでください。</strong>フォームからの申込は毎日深夜に自動で消去されます。</p>
+            <div class="demo-actions">
+                <a id="demo-sheet-link" class="demo-btn" href="#" target="_blank" rel="noopener" hidden>📊 申込一覧（閲覧用スプレッドシート）を見る ↗</a>
+                <button type="button" class="demo-btn demo-btn-ghost" onclick="fillSampleData()">✏️ サンプルを自動入力する</button>
+            </div>
+        </div>
+
         <header>
-            <h1>第13回伊那市ビギナーズバドミントン交流会 参加申込書</h1>
+            <h1>第1回 サンプルバドミントン交流会 参加申込書</h1>
             <p class="subtitle">必要事項を入力し、画面右下の「印刷・PDF保存」または「送信する」ボタンを押してください。</p>
+            <div class="event-info">
+                <span>主催：サンプルバドミントンクラブ</span>
+                <span>日時：2027年3月14日（日）</span>
+                <span>場所：サンプル市総合体育館</span>
+            </div>
         </header>
+
+        <!-- 申込締切の告知 -->
+        <div class="deadline-banner">
+            📅 申込締切 <span class="deadline-emph">2月28日（日）</span> 必着
+            <span class="deadline-note">※定員60ペアに達し次第、締切前でも受付を終了します</span>
+        </div>
+
+        <!-- 定員・残り枠バナー（受付状況をGASから取得して表示） -->
+        <div id="capacity-banner" class="capacity-banner" hidden></div>
+
+        <!-- 同一団体の重複申込の防止（追加申込は主催者へ連絡してもらう） -->
+        <div class="policy-note">
+            <span class="policy-title">お申し込みは団体ごとに1回でお願いします</span>
+            同じクラブ・チーム・学校からのお申し込みは、<span class="policy-accent">代表の方がまとめて1回</span>で送信してください。<br>
+            9ペア以上で2回に分ける場合や、すでに送信済みの団体から<span class="policy-accent">追加でお申し込み</span>される場合は、行き違いを防ぐため事前に主催者へご連絡ください。
+        </div>
+
+        <!-- キャンセル規定（控えメールの CANCEL_POLICY と文言をそろえること） -->
+        <div class="policy-note">
+            <span class="policy-title">キャンセルについて</span>
+            お申し込み後のキャンセルは可能です。ただし、<span class="policy-accent">参加料をお支払いいただいた後の返金は行っておりません</span>ので、あらかじめご了承ください。
+            キャンセルされる場合は、主催者へメールにてお早めにご連絡ください。
+        </div>
 
         <!-- 入力の自動復元バナー（前回の続きがある場合のみ表示） -->
         <div id="draft-banner" class="draft-banner" hidden>
@@ -1271,11 +1623,31 @@
                     <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
                 </svg>
             </div>
-            <h2 class="thanks-title">送信が完了しました！</h2>
+            <h2 class="thanks-title">仮申込が完了しました</h2>
             <p class="thanks-text">
-                ご入力いただいた内容はGoogleスプレッドシートに正常に保存されました。<br>
-                また、責任者様のメールアドレス宛てに、元の申込書PDFを添付した「申込完了控えメール」を自動送信いたしました。ご確認ください。
+                ご入力いただいた内容を受け付けました。<br>
+                ご登録のメールアドレス宛てに、申込書PDFを添付した「お申し込み内容の控え」を自動でお送りしています。
             </p>
+            <div class="payment-notice">
+                <p class="payment-notice-title">📧 メールをご確認のうえ、お支払い手続きをお願いします</p>
+                <p>
+                    このお申し込みは、参加料のご入金（お振込）をもって完了となります。<br>
+                    <span class="accent">お送りしたメールに、参加料の<strong>お支払い先（送付先）のご案内</strong>を記載しています。</span><br>
+                    <span class="accent">お支払い期限：<span id="thx-deadline">-</span></span><br>
+                    メールをご確認のうえ、上記の期限までに参加料のお支払い手続きをお願いいたします。<br>
+                    ご入金を確認した時点で、正式にお申し込み完了となります。<br>
+                    <small>※メールが届かない場合は、迷惑メールフォルダもご確認ください。</small>
+                </p>
+            </div>
+            <!-- デモ：送信結果の確認先（本番には無い） -->
+            <div class="demo-result">
+                <p class="demo-banner-title">🧪 デモの送信結果</p>
+                <p id="thx-mail-status">-</p>
+                <div class="demo-actions">
+                    <a id="thx-sheet-link" class="demo-btn" href="#" target="_blank" rel="noopener" hidden>📊 申込一覧に追加された行を見る ↗</a>
+                    <a id="thx-team-link" class="demo-btn demo-btn-ghost" href="#" target="_blank" rel="noopener" hidden>📄 自動作成された申込書を開く ↗</a>
+                </div>
+            </div>
             <div class="thanks-summary">
                 <h3
                     style="font-size: 1rem; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.5rem; margin-bottom: 0.75rem; color: var(--text-dark);">
@@ -1302,6 +1674,15 @@
             <button type="button" class="btn btn-secondary" onclick="window.location.reload();">新しい申込を行う</button>
         </div>
 
+        <!-- 満員時の受付終了画面（残り0ペアを検知したら表示） -->
+        <div id="closed-screen" class="thanks-container">
+            <h2 class="thanks-title">参加申込の受付は終了しました</h2>
+            <p class="thanks-text">
+                定員（<span id="closed-capacity">60</span>ペア）に達したため、参加申込の受付を終了いたしました。<br>
+                たくさんのお申し込みをありがとうございました。
+            </p>
+        </div>
+
         <!-- フォーム本体 -->
         <form id="application-form" onsubmit="handleFormSubmit(event)">
             <!-- 1. 申込責任者情報 -->
@@ -1314,18 +1695,18 @@
                     <div class="form-control">
                         <label for="rep-group">団体名 <span
                                 style="font-size: 0.75rem; font-weight: normal; color: var(--text-light);">（所属団体・クラブがない場合は自由に考えてください）</span></label>
-                        <input type="text" id="rep-group" required autocomplete="organization" placeholder="例：◯◯バドミントンクラブ">
+                        <input type="text" id="rep-group" required autocomplete="organization" placeholder="例：◯◯バドミントンクラブ" oninput="syncGroupToMembers(); calculateTotal();">
                         <div class="error-message">団体名を入力してください。</div>
                     </div>
                     <div class="form-control">
                         <label for="rep-address">住所</label>
-                        <input type="text" id="rep-address" required autocomplete="street-address" placeholder="例：長野県伊那市下新田○○-○"
+                        <input type="text" id="rep-address" required autocomplete="street-address" placeholder="例：○○県○○市○○町1-2-3"
                             oninput="this.value = this.value.replace(/,/g, '');">
                         <div class="error-message">住所を入力してください。</div>
                     </div>
                     <div class="form-control">
                         <label for="rep-name">氏名</label>
-                        <input type="text" id="rep-name" required autocomplete="name" placeholder="例：伊那 太郎">
+                        <input type="text" id="rep-name" required autocomplete="name" placeholder="例：山田 太郎">
                         <div class="error-message">責任者氏名を入力してください。</div>
                     </div>
                     <div class="form-control">
@@ -1339,6 +1720,11 @@
                         <input type="email" id="rep-email" required inputmode="email" autocomplete="email" placeholder="例：taro@example.com">
                         <div class="error-message">有効なメールアドレスを入力してください。</div>
                     </div>
+                    <!-- ボット対策のダミー欄（人間には見えない・入力されない。埋まっていたらGAS側で破棄） -->
+                    <div class="hp-field" aria-hidden="true">
+                        <label for="website">Website</label>
+                        <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+                    </div>
                 </div>
             </section>
 
@@ -1347,9 +1733,13 @@
                 <div class="section-title">
                     参加者登録名簿 (最大8ペア・16名)
                     <span
-                        style="font-size: 0.8rem; font-weight: normal; color: var(--text-light);">※9ペアを超える場合は2回に分けて送信してください。</span>
+                        style="font-size: 0.8rem; font-weight: normal; color: var(--text-light);">※9ペア以上の場合は2回に分けて送信してください（その際は主催者へご連絡ください）。</span>
                 </div>
                 <p class="rank-warning">⚠ 必ずランク順でペアを入力してください。</p>
+                <p class="duplicate-note">
+                    📝 同じクラブ・チーム・学校の方は、<strong>この名簿にまとめてご入力ください</strong>（団体ごとに1回のお申し込み）。<br>
+                    すでに送信済みの団体から<strong>追加でお申し込み</strong>される場合は、事前に主催者へご連絡ください。
+                </p>
 
                 <div class="table-container">
                     <table>
@@ -1917,13 +2307,93 @@
 
     <script>
         // ==========================================================================
-        // GAS (Google Apps Script) 連携設定
+        // GAS (Google Apps Script) 連携 ― デモ版
+        //   構成は本番と同じ（GitHub Pages のこのフォーム → デモ用GASのウェブアプリ）。
+        //   本番は no-cors で送るため送信結果を読めないが、デモは Content-Type を付けずに
+        //   （text/plain＝プリフライトなし）POST して、GASが返すJSONで成否を画面に出す。
         // ==========================================================================
-        // ユーザー様がGASウェブアプリをデプロイした後に、発行されたURLを以下に設定してください。
-        const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyWhT8f-3lH1lpjtH-yJcFPx3O-H4TvaqL2djp-MR2cICtzwET3pGHawGMawjv7ycEV/exec";
+        const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbz-sFKrCWsBI5L4b83PXHtsQ5-PX6xtrFngZzitNBhaMO5abNrSpMYjne6bb1Xl-RAm/exec";
 
         // 1人あたりの参加料（GAS側の ENTRY_FEE と必ず一致させること）
         const ENTRY_FEE = 1500;
+
+        // ==========================================================================
+        // 受付状況（定員・残り枠）の取得と表示
+        //   - 定員の正はGAS側の CAPACITY_PAIRS（60ペア）。フォームは取得して表示するだけ。
+        //   - 取得失敗時はバナー非表示のまま申込は妨げない（GAS側に定員ガードがあるため安全）。
+        // ==========================================================================
+        const CAPACITY_LOW_THRESHOLD = 8; // 残りこのペア数以下で「残りわずか」表示
+
+        // group を渡すと、同じ団体名の申込がすでにあるか（duplicate）も返る
+        function fetchCapacityStatus(group) {
+            const url = GAS_WEBAPP_URL + (group ? '?group=' + encodeURIComponent(group) : '');
+            return fetch(url).then(res => res.json());
+        }
+
+        function renderCapacityBanner(info) {
+            if (!info || typeof info.remaining !== 'number') return;
+            const banner = document.getElementById('capacity-banner');
+            const capacity = Number(info.capacity);
+            const remaining = Number(info.remaining);
+            banner.classList.remove('capacity-low', 'capacity-full');
+            banner.textContent = '';
+            if (remaining <= 0) {
+                banner.classList.add('capacity-full');
+                banner.textContent = '定員' + capacity + 'ペアに達したため、受付を終了しました';
+                showClosedScreen(capacity);
+            } else {
+                const isLow = remaining <= CAPACITY_LOW_THRESHOLD;
+                if (isLow) banner.classList.add('capacity-low');
+                banner.appendChild(document.createTextNode('定員 ' + capacity + 'ペア ／ 残り '));
+                const em = document.createElement('span');
+                em.className = 'capacity-remaining';
+                em.textContent = remaining;
+                banner.appendChild(em);
+                banner.appendChild(document.createTextNode(' ペア' + (isLow ? '（残りわずか）' : '')));
+            }
+            banner.hidden = false;
+        }
+
+        // 受付終了時に役目を終える告知バナー（締切）を隠す
+        function hideEntryBanners() {
+            document.querySelectorAll('.start-date-banner, .deadline-banner')
+                .forEach(el => { el.style.display = 'none'; });
+        }
+
+        // 満員：フォームを隠して受付終了画面を表示する
+        function showClosedScreen(capacity) {
+            document.querySelector('header p.subtitle').style.display = 'none';
+            document.getElementById('application-form').style.display = 'none';
+            hideEntryBanners();
+            if (capacity) document.getElementById('closed-capacity').textContent = capacity;
+            document.getElementById('closed-screen').classList.add('active');
+        }
+
+        // 閲覧用スプシへのリンク（デモ帯・完了画面）にURLを入れて表示する
+        function setSheetLinks(url) {
+            if (!url) return;
+            ['demo-sheet-link', 'thx-sheet-link'].forEach(id => {
+                const a = document.getElementById(id);
+                if (a) { a.href = url; a.hidden = false; }
+            });
+        }
+
+        // ページ表示時に受付状況を取得してバナー表示（満員ならフォームを閉じる）
+        function initCapacityStatus() {
+            fetchCapacityStatus()
+                .then(info => {
+                    setSheetLinks(info && info.sheetUrl);
+                    renderCapacityBanner(info);
+                })
+                .catch(err => console.error('getStatus failed:', err));
+        }
+
+        // payloadに含まれるペア数（pairNoの種類数）を数える
+        function countPayloadPairs(payload) {
+            const pairNos = {};
+            (payload.participants || []).forEach(p => { pairNos[p.pairNo] = true; });
+            return Object.keys(pairNos).length;
+        }
 
         /**
          * ひらがなをカタカナに自動変換し、カタカナ・長音符・スペース以外の不正文字をチェック
@@ -1988,9 +2458,10 @@
             const date = new Date(year, month, day);
 
             if (date.getFullYear() === year && date.getMonth() === month && date.getDate() === day) {
-                // 現在日付より未来でないか、および120歳以上離れていないかの範囲チェック
-                const currentYear = new Date().getFullYear();
-                if (year > currentYear || year < currentYear - 120) {
+                // 現在日付より未来でないか（当年の未来日も弾く）、120歳以上離れていないかの範囲チェック
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                if (date > today || year < today.getFullYear() - 120) {
                     input.classList.add('invalid');
                 } else {
                     input.classList.remove('invalid');
@@ -2048,6 +2519,21 @@
             saveDraft();              // 入力内容を自動保存
         }
 
+        // 責任者の「団体名」を各参加者の「所属」欄へ自動反映する。
+        // 空欄、または直前に自動入力した団体名のままの欄だけ上書きする
+        // （＝手動で別の所属を入れた欄は維持。編集も可能）。
+        let lastSyncedGroup = '';
+        function syncGroupToMembers() {
+            const group = document.getElementById('rep-group').value.trim();
+            document.querySelectorAll('tr.participant-row .input-address').forEach(input => {
+                const cur = input.value.trim();
+                if (cur === '' || cur === lastSyncedGroup) {
+                    input.value = group;
+                }
+            });
+            lastSyncedGroup = group;
+        }
+
         /**
          * 送信時の全体バリデーションと処理 (GAS連携版)
          */
@@ -2091,6 +2577,10 @@
                 if (hasName || hasKana) {
                     participantCount++;
 
+                    // 送信直前に再検証（一括invalid解除後・下書き復元後でも不正値を確実に弾く）
+                    if (hasKana) sanitizeKatakana(kanaInput);
+                    validateDate(birthdateInput);
+
                     // ペア内の入力漏れチェック
                     if (!hasName) {
                         nameInput.classList.add('invalid');
@@ -2128,8 +2618,25 @@
                 return;
             }
 
+            // 4-2. 片肺ペアチェック（ペアは2名1組。1名のみの入力を禁止）
+            let pairError = false;
+            const pairCounts = {};
+            participantsData.forEach(p => { pairCounts[p.pairNo] = (pairCounts[p.pairNo] || 0) + 1; });
+            Object.keys(pairCounts).forEach(pn => {
+                if (pairCounts[pn] === 1) {
+                    pairError = true;
+                    hasError = true;
+                    document.querySelectorAll('tr.participant-row[data-pair="' + pn + '"]').forEach(row => {
+                        row.querySelector('.input-name').classList.add('invalid');
+                        row.querySelector('.input-kana').classList.add('invalid');
+                    });
+                }
+            });
+
             if (hasError) {
-                alert('入力内容に不備があります。赤枠で表示された項目を確認してください。');
+                alert(pairError
+                    ? 'ペアは必ず2名1組で入力してください。1名のみのペアがあります（赤枠の箇所をご確認ください）。'
+                    : '入力内容に不備があります。赤枠で表示された項目を確認してください。');
 
                 // 最初のエラー要素にスクロール
                 const firstError = document.querySelector('.invalid');
@@ -2149,7 +2656,9 @@
                 repEmail: document.getElementById('rep-email').value.trim(),
                 totalParticipants: participantCount,
                 totalAmount: participantCount * ENTRY_FEE,
-                participants: participantsData
+                participants: participantsData,
+                // ボット対策のダミー欄。人間は空のまま（値が入っていたらGAS側で破棄される）
+                website: (document.getElementById('website') || { value: '' }).value
             };
 
             // 6. 送信前に確認モーダルを表示（実際の送信は confirmSend() 経由で行う）
@@ -2191,53 +2700,105 @@
             const loadingScreen = document.getElementById('loading-screen');
             loadingScreen.classList.add('active'); // ローディング表示ON
 
-            if (GAS_WEBAPP_URL === "YOUR_GAS_WEBAPP_URL_HERE") {
-                // URLが未設定の場合はシミュレーション動作（テスト用）
-                setTimeout(() => {
-                    loadingScreen.classList.remove('active');
-                    showThanksPage(payload);
-                    alert('【シミュレーション動作】\nGASウェブアプリURLが未設定のため、実際のデータ保存とメール送信はスキップされました。\nURLを設定すると実際にスプレッドシートへの保存と自動返信メールが行われます。');
-                }, 1500);
-            } else {
-                // 実際のGAS Web Appへの送信
-                fetch(GAS_WEBAPP_URL, {
-                    method: "POST",
-                    mode: "no-cors", // CORSエラー回避
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(payload)
-                })
-                    .then(() => {
+            // 送信直前に最新の受付状況を確認（満員ガード＋重複警告）。
+            // 確認自体に失敗した場合は送信を続行する（GAS側にも定員ガードがあるため二重に安全）。
+            const reqPairs = countPayloadPairs(payload);
+            fetchCapacityStatus(payload.repGroup)
+                .then(info => {
+                    if (info && typeof info.remaining === 'number' && reqPairs > info.remaining) {
+                        // 満員 or 残り枠不足：送信せずに知らせる
                         loadingScreen.classList.remove('active');
-                        showThanksPage(payload);
-                    })
-                    .catch(error => {
-                        loadingScreen.classList.remove('active');
-                        console.error("Error sending data to GAS:", error);
-                        alert("送信中にエラーが発生しました。ネットワーク接続を確認し、もう一度お試しください。");
-                        isSubmitting = false;       // 失敗時は再送信できるよう戻す
+                        isSubmitting = false;
                         submitBtn.disabled = false;
-                    });
-            }
+                        renderCapacityBanner(info);
+                        alert(info.remaining <= 0
+                            ? '申し訳ありません。定員（' + info.capacity + 'ペア）に達したため、受付を終了しました。'
+                            : '申し訳ありません。残り枠が ' + info.remaining + ' ペアのため、今回のお申し込み（' + reqPairs + 'ペア）は受け付けできません。\nペア数を減らして再度お申し込みください。');
+                        return;
+                    }
+                    if (info && info.duplicate) {
+                        // 重複の可能性：警告のみ（2回に分けた追加申込は正当なケースのため続行可）
+                        loadingScreen.classList.remove('active');
+                        const goOn = confirm('同じ団体名でのお申し込みがすでにあります。\n追加申込（2回目の送信）の場合は、そのまま続行してください。\n\nこのまま送信しますか？');
+                        if (!goOn) {
+                            isSubmitting = false;
+                            submitBtn.disabled = false;
+                            return;
+                        }
+                        loadingScreen.classList.add('active');
+                    }
+                    submitToGas(payload, loadingScreen, submitBtn);
+                })
+                .catch(() => submitToGas(payload, loadingScreen, submitBtn));
+        }
+
+        // GAS へ申込をPOSTする。
+        // 本番（no-cors）と違って応答を読めるので、失敗・満員はその場で知らせて再送信できるようにする。
+        // ※Content-Type を付けない（text/plain 扱い）＝プリフライトが発生せず、GASの応答を読める。
+        function submitToGas(payload, loadingScreen, submitBtn) {
+            const fail = (message) => {
+                loadingScreen.classList.remove('active');
+                isSubmitting = false;       // 失敗時は再送信できるよう戻す
+                submitBtn.disabled = false;
+                alert(message);
+            };
+            fetch(GAS_WEBAPP_URL, { method: 'POST', body: JSON.stringify(payload) })
+                .then(res => res.json())
+                .then(res => {
+                    if (res && res.status === 'success') {
+                        loadingScreen.classList.remove('active');
+                        showThanksPage(payload, res);
+                    } else if (res && res.status === 'full') {
+                        fail(res.remaining > 0
+                            ? '申し訳ありません。残り枠が ' + res.remaining + ' ペアのため、今回のお申し込み（' + countPayloadPairs(payload) + 'ペア）は受け付けできません。'
+                            : '申し訳ありません。定員（' + res.capacity + 'ペア）に達したため、受付を終了しました。');
+                        initCapacityStatus();
+                    } else {
+                        fail((res && res.message) || '送信できませんでした。時間をおいて再度お試しください。');
+                    }
+                })
+                .catch(error => {
+                    // 応答を読めなかった場合は、GAS側では登録済みのこともある（二重申込を防ぐため確認を促す）
+                    console.error('Error sending data to GAS:', error);
+                    fail('送信結果を確認できませんでした。\n申込一覧（閲覧用スプレッドシート）に反映されていないことを確かめてから、もう一度お試しください。');
+                });
         }
 
         /**
          * 送信完了後のサンクス画面表示切り替え
          */
-        function showThanksPage(data) {
+        function showThanksPage(data, res) {
             // 送信が完了したので保存済みの下書きを破棄
             try { localStorage.removeItem(DRAFT_KEY); } catch (e) { /* 無視 */ }
 
-            // ヘッダーとフォーム本体を非表示にする
+            // ヘッダーとフォーム本体を非表示にする（残り枠バナーは古い数字になるため隠す）
             document.querySelector('header p.subtitle').style.display = 'none';
             document.getElementById('application-form').style.display = 'none';
+            document.getElementById('capacity-banner').hidden = true;
 
             // サンクス画面内のサマリーを埋める
             document.getElementById('thx-group').textContent = data.repGroup;
             document.getElementById('thx-name').textContent = data.repName;
             document.getElementById('thx-count').textContent = data.totalParticipants + " 名";
             document.getElementById('thx-amount').textContent = "¥" + data.totalAmount.toLocaleString();
+
+            // お支払い期限（申込日を含めず7日後 ＝ 申込日＋7日）を計算して表示。
+            // 正はGAS側 paymentDeadlineStr()（Asia/Tokyo基準）。端末のタイムゾーン設定が日本以外だと
+            // ローカル時刻計算では深夜帯に1日ズレるため、UTC+9へ寄せてからUTCメソッドで読む。
+            const dl = new Date(Date.now() + 9 * 3600000);
+            dl.setUTCDate(dl.getUTCDate() + 7);
+            const wd = ['日', '月', '火', '水', '木', '金', '土'][dl.getUTCDay()];
+            document.getElementById('thx-deadline').textContent =
+                dl.getUTCFullYear() + "年" + (dl.getUTCMonth() + 1) + "月" + dl.getUTCDate() + "日（" + wd + "）まで";
+
+            // デモ：控えメールの送信結果と、作成された申込書・閲覧用スプシへのリンク
+            res = res || {};
+            document.getElementById('thx-mail-status').textContent = res.emailSent
+                ? '✉️ 控えメール（申込書PDF付き）を ' + data.repEmail + ' 宛てに送信しました。'
+                : '✉️ 控えメールは送信できませんでした（申込の登録は完了しています）。';
+            const teamLink = document.getElementById('thx-team-link');
+            if (res.teamUrl) { teamLink.href = res.teamUrl; teamLink.hidden = false; }
+            setSheetLinks(res.sheetUrl);
 
             // サンクス画面をアクティブにする
             document.getElementById('thanks-screen').classList.add('active');
@@ -2318,7 +2879,7 @@
         // ==========================================================================
         // 入力内容の自動保存／復元（localStorage）
         // ==========================================================================
-        const DRAFT_KEY = 'inashi_badminton_draft_v1';
+        const DRAFT_KEY = 'sample_badminton_demo_draft_v1';
 
         function collectParticipants() {
             const list = [];
@@ -2486,10 +3047,55 @@
         }
 
         // ==========================================================================
+        // デモ用：サンプルを自動入力（2ペア4名）
+        //   メールアドレスだけは空のまま＝控えメールを受け取りたい宛先を入れてもらう
+        // ==========================================================================
+        const SAMPLE_PEOPLE = [
+            ['ミホン タロウ', '見本 太郎', '男', '1985/04/01'],
+            ['ミホン ハナコ', '見本 花子', '女', '1988/09/15'],
+            ['タメシ イチロウ', '試 一郎', '男', '1992/12/03'],
+            ['タメシ サクラ', '試 さくら', '女', '1995/06/20']
+        ];
+
+        function fillSampleData() {
+            const repIds = ['rep-group', 'rep-address', 'rep-name', 'rep-tel'];
+            const hasInput = repIds.some(id => document.getElementById(id).value.trim() !== '') ||
+                Array.from(document.querySelectorAll('.participant-input')).some(el => el.value.trim() !== '');
+            if (hasInput && !confirm('入力中の内容をサンプルで上書きします。よろしいですか？')) return;
+
+            document.getElementById('rep-group').value = 'デモ体験クラブ';
+            document.getElementById('rep-address').value = 'サンプル県みほん市中央1-2-3';
+            document.getElementById('rep-name').value = '見本 太郎';
+            document.getElementById('rep-tel').value = '090-0000-0000';
+
+            document.querySelectorAll('.participant-input').forEach(el => { el.value = ''; });
+            SAMPLE_PEOPLE.forEach((p, i) => {
+                const row = document.querySelector('tr.participant-row[data-pair="' + (Math.floor(i / 2) + 1) +
+                    '"][data-member="' + (i % 2 + 1) + '"]');
+                row.querySelector('.input-kana').value = p[0];
+                row.querySelector('.input-name').value = p[1];
+                row.querySelector('.input-gender').value = p[2];
+                row.querySelector('.input-birthdate').value = p[3];
+            });
+            lastSyncedGroup = '';
+            syncGroupToMembers();       // 所属欄に団体名を反映
+            document.querySelectorAll('.invalid').forEach(el => el.classList.remove('invalid'));
+            visiblePairs = 2;
+            updatePairVisibility();     // ペア表示・人数・金額・チェックリストを更新
+
+            // メールアドレスの入力欄へ案内する
+            const email = document.getElementById('rep-email');
+            email.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            email.focus({ preventScroll: true });
+        }
+
+        // ==========================================================================
         // 初期化
         // ==========================================================================
         initRosterAccessibility();
         restoreDraft();          // 前回入力があれば復元（visiblePairs も復元）
+        initCapacityStatus();    // 受付状況（定員・残り枠）を取得して表示（満員ならフォームを閉じる）
+        syncGroupToMembers();    // 復元後、空の所属欄に団体名を反映（手動入力済みは維持）
         updatePairVisibility();  // ペア表示・人数・金額・チェックリストを初期反映
     </script>
 

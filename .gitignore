@@ -1,8 +1,8 @@
-# GitHub Pages 公開リポジトリには index.html のみを含める。
-# GAS スクリプトや clasp 設定（scriptId / WebApp URL）は公開しない。
-gas_script.js
+# GitHub Pages で公開するのは index.html のみ（本番の申込書フォルダと同じ方針）。
+# GAS スクリプトや clasp 設定・内部メモは公開しない（ローカル保持）。
+Code.js
 appsscript.json
 .clasp.json
 .claspignore
-*.pdf
 CLAUDE.md
+*.bak
