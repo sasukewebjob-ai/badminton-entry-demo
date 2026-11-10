@@ -1548,7 +1548,7 @@
     <div id="confirm-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="confirm-modal-title">
         <div class="modal-card">
             <h2 class="modal-title" id="confirm-modal-title">この内容で送信します</h2>
-            <p class="modal-lead">特に<strong>メールアドレス</strong>に間違いがないかご確認ください。控えのPDFがこのアドレス宛てに届きます。</p>
+            <p class="modal-lead">特に<strong>メールアドレス</strong>に間違いがないかご確認ください。このアドレス宛てに受付のお知らせが届きます（デモは定型文のみ。本番は申込書PDF付きの控え）。</p>
             <p class="modal-rank-note">⚠ ペアは「ランク順」で入力されていますか？ 順番が違うと組み合わせに影響します。</p>
             <p class="modal-dup-note">📝 同じ団体から<strong>すでに申し込み済み</strong>の追加送信ではありませんか？ その場合は送信後に主催者へご連絡ください。</p>
             <table class="modal-summary">
@@ -1569,8 +1569,8 @@
         <!-- デモ版の案内（本番には無い） -->
         <div class="demo-banner" role="note">
             <p class="demo-banner-title">🧪 これは参加申込システムのデモです</p>
-            <p>実際の大会で使った申込フォームを、架空の大会名で再現しています。送信すると本番と同じように、閲覧用スプレッドシートへの記録・団体別申込書の作成・控えメール（申込書PDF付き）の送信が行われます。</p>
-            <p class="demo-banner-note">※送信内容は閲覧用スプレッドシートに表示されます（電話番号・メールアドレスは伏せ字）。<strong>実在の個人情報は入力しないでください。</strong>フォームからの申込は毎日深夜に自動で消去されます。</p>
+            <p>実際の大会で使った申込フォームを、架空の大会名で再現しています。送信すると本番と同じように、閲覧用スプレッドシートへの記録・団体別申込書の作成が行われ、受付のお知らせメールが届きます（デモのメールは定型文のみ。本番は申込内容と申込書PDF付きの控え）。</p>
+            <p class="demo-banner-note">※送信内容は閲覧用スプレッドシートに表示されます（電話番号・メールアドレス・住所・生年月日は伏せ字）。<strong>実在の個人情報は入力しないでください。</strong>フォームからの申込は毎日深夜に自動で消去されます。</p>
             <div class="demo-actions">
                 <a id="demo-sheet-link" class="demo-btn" href="#" target="_blank" rel="noopener" hidden>📊 申込一覧（閲覧用スプレッドシート）を見る ↗</a>
                 <button type="button" class="demo-btn demo-btn-ghost" onclick="fillSampleData()">✏️ サンプルを自動入力する</button>
@@ -1603,7 +1603,7 @@
             9ペア以上で2回に分ける場合や、すでに送信済みの団体から<span class="policy-accent">追加でお申し込み</span>される場合は、行き違いを防ぐため事前に主催者へご連絡ください。
         </div>
 
-        <!-- キャンセル規定（控えメールの CANCEL_POLICY と文言をそろえること） -->
+        <!-- キャンセル規定（本番の控えメールの CANCEL_POLICY と文言をそろえること。デモのメールには載せない） -->
         <div class="policy-note">
             <span class="policy-title">キャンセルについて</span>
             お申し込み後のキャンセルは可能です。ただし、<span class="policy-accent">参加料をお支払いいただいた後の返金は行っておりません</span>ので、あらかじめご了承ください。
@@ -1626,13 +1626,13 @@
             <h2 class="thanks-title">仮申込が完了しました</h2>
             <p class="thanks-text">
                 ご入力いただいた内容を受け付けました。<br>
-                ご登録のメールアドレス宛てに、申込書PDFを添付した「お申し込み内容の控え」を自動でお送りしています。
+                ご登録のメールアドレス宛てに、受付のお知らせを自動でお送りしています（デモは定型文のみ。本番は申込書PDFを添付した「お申し込み内容の控え」）。
             </p>
             <div class="payment-notice">
                 <p class="payment-notice-title">📧 メールをご確認のうえ、お支払い手続きをお願いします</p>
                 <p>
                     このお申し込みは、参加料のご入金（お振込）をもって完了となります。<br>
-                    <span class="accent">お送りしたメールに、参加料の<strong>お支払い先（送付先）のご案内</strong>を記載しています。</span><br>
+                    <span class="accent">本番では、お送りするメールに参加料の<strong>お支払い先（送付先）のご案内</strong>を記載しています（デモのメールには載せていません）。</span><br>
                     <span class="accent">お支払い期限：<span id="thx-deadline">-</span></span><br>
                     メールをご確認のうえ、上記の期限までに参加料のお支払い手続きをお願いいたします。<br>
                     ご入金を確認した時点で、正式にお申し込み完了となります。<br>
@@ -1716,7 +1716,7 @@
                     </div>
                     <div class="form-control full-width">
                         <label for="rep-email">メールアドレス <span
-                                style="font-weight: normal; color: var(--text-light);">(送信完了後にこのアドレス宛てにPDF控えが自動返信されます)</span></label>
+                                style="font-weight: normal; color: var(--text-light);">(送信完了後にこのアドレス宛てに受付のお知らせが届きます。デモは定型文のみ)</span></label>
                         <input type="email" id="rep-email" required inputmode="email" autocomplete="email" placeholder="例：taro@example.com">
                         <div class="error-message">有効なメールアドレスを入力してください。</div>
                     </div>
@@ -2794,8 +2794,10 @@
             // デモ：控えメールの送信結果と、作成された申込書・閲覧用スプシへのリンク
             res = res || {};
             document.getElementById('thx-mail-status').textContent = res.emailSent
-                ? '✉️ 控えメール（申込書PDF付き）を ' + data.repEmail + ' 宛てに送信しました。'
-                : '✉️ 控えメールは送信できませんでした（申込の登録は完了しています）。';
+                ? '✉️ 受付のお知らせ（定型文）を ' + data.repEmail + ' 宛てに送信しました。本番では、申込内容と申込書PDF付きの控えが届きます。'
+                : res.mailLimited
+                    ? '✉️ 本日のデモのメール送信数が上限に達したため、メールは送っていません（申込の登録は完了しています）。'
+                    : '✉️ 受付のお知らせメールは送信できませんでした（申込の登録は完了しています）。';
             const teamLink = document.getElementById('thx-team-link');
             if (res.teamUrl) { teamLink.href = res.teamUrl; teamLink.hidden = false; }
             setSheetLinks(res.sheetUrl);
